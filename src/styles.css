@@ -290,6 +290,57 @@ textarea {
   color: #8da0ba;
 }
 
+.skill-ui-suppression-findings {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 8px;
+}
+
+.skill-ui-suppression-finding {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 6px;
+  align-items: center;
+  font-size: 0.75rem;
+  padding: 3px 4px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.03);
+}
+
+.skill-ui-suppression-finding.invalid-rule {
+  background: rgba(229, 62, 62, 0.08);
+}
+
+.skill-ui-suppression-finding.unused-suppression {
+  background: rgba(214, 158, 46, 0.08);
+}
+
+.suppression-rule {
+  font-family: monospace;
+  font-weight: 600;
+  color: #93b4e0;
+}
+
+.suppression-issue {
+  color: #8da0ba;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.suppression-loc {
+  color: #8da0ba;
+  font-size: 0.7rem;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+
 .skill-manager-shell {
   min-height: 100vh;
   color: #edf7ff;

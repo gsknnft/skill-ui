@@ -190,12 +190,52 @@ export function SkillSecurityWorkbench({
         </section>
 
         <section className="skill-ui-panel">
-          <div className="skill-ui-panel-head"><span>Suppressions</span></div>
-          <div className="skill-ui-list">
-            <div><span>Invalid</span><strong>{suppressionAudit?.invalid ?? 0}</strong></div>
-            <div><span>Unused</span><strong>{suppressionAudit?.unused ?? 0}</strong></div>
-            <div><span>Status</span><strong>{suppressionAudit ? (suppressionAudit.ok ? "clean" : "audit") : "n/a"}</strong></div>
+          <div className="skill-ui-panel-head">
+            <span>Suppressions</span>
+            <small>{policy.suppressionMode}</small>
           </div>
+          {suppressionAudit ? (
+            <>
+              <div className="skill-ui-list">
+                <div><span>Found</span><strong>{suppressionAudit.invalid + suppressionAudit.unused}</strong></div>
+                <div>
+                  <span>Invalid rule ID</span>
+                  <strong style={suppressionAudit.invalid > 0 ? { color: "var(--skill-danger, #e53e3e)" } : undefined}>
+                    {suppressionAudit.invalid}
+                  </strong>
+                </div>
+                <div>
+                  <span>Unused</span>
+                  <strong style={suppressionAudit.unused > 0 ? { color: "var(--skill-caution, #d69e2e)" } : undefined}>
+                    {suppressionAudit.unused}
+                  </strong>
+                </div>
+                <div><span>Status</span><strong>{suppressionAudit.ok ? "clean" : "needs review"}</strong></div>
+              </div>
+              {suppressionAudit.findings.length > 0 && (
+                <div className="skill-ui-suppression-findings">
+                  {suppressionAudit.findings.slice(0, 6).map((f, i) => (
+                    <div key={i} className={`skill-ui-suppression-finding ${f.issue}`}>
+                      <span className="suppression-rule">{f.ruleId}</span>
+                      <span className="suppression-issue">{f.issue === "invalid-rule" ? "invalid rule" : "unused"}</span>
+                      <span className="suppression-loc">{f.documentId} L{f.line}</span>
+                    </div>
+                  ))}
+                  {suppressionAudit.findings.length > 6 && (
+                    <p className="skill-ui-empty">+{suppressionAudit.findings.length - 6} more</p>
+                  )}
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <div className="skill-ui-list">
+                <div><span>Found</span><strong>{report?.summary.suppressions ?? 0}</strong></div>
+                <div><span>Status</span><strong>n/a</strong></div>
+              </div>
+              <p className="skill-ui-empty">Pass suppressionAudit to enable audit.</p>
+            </>
+          )}
         </section>
       </div>
     </section>

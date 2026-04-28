@@ -42,7 +42,8 @@
         "dev": "next dev",
         "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
         "lint": "eslint 'src/**/*.{ts,tsx}'",
-        "test": "vitest run src"
+        "test": "vitest run src",
+        "pack:check": "pnpm pack --dry-run"
     },
     "dependencies": {},
     "devDependencies": {
