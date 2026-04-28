@@ -17,6 +17,6 @@ describe("skill-ui demo contracts", () => {
       total: demoManagedSkills.length,
       block: 1,
     });
-    expect(exportSkillMarkdown(demoManagedSkills[0])).toContain("name: Vera Universal API Orchestrator");
+    expect(exportSkillMarkdown(demoManagedSkills[0])).toContain("name: Agent Plugin Builder");
   });
 });
