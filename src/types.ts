@@ -2,6 +2,29 @@ export type SkillUiStatus = "allow" | "review" | "block";
 
 export type SkillUiPolicyPreset = "strict" | "marketplace" | "workspace";
 
+/** Maps a 0–100 risk score to a named tier. Mirrors SkillRiskLevel from skill-safe. */
+export type SkillUiRiskLevel = "safe" | "low" | "moderate" | "elevated" | "high" | "critical";
+
+/** Map a 0–100 score to a risk level tier. */
+export function getUiRiskLevel(score: number): SkillUiRiskLevel {
+  if (score === 0) return "safe";
+  if (score <= 20) return "low";
+  if (score <= 40) return "moderate";
+  if (score <= 60) return "elevated";
+  if (score <= 80) return "high";
+  return "critical";
+}
+
+/** Human-readable label for a risk level. */
+export const RISK_LEVEL_LABEL: Record<SkillUiRiskLevel, string> = {
+  safe: "Safe",
+  low: "Low",
+  moderate: "Moderate",
+  elevated: "Elevated",
+  high: "High",
+  critical: "Critical",
+};
+
 export type SkillUiLedgerEntry = {
   id: string;
   name?: string;

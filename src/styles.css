@@ -219,6 +219,84 @@ textarea {
   border-color: rgba(251, 113, 133, 0.42);
 }
 
+/* ── Risk level badge ──────────────────────────────────────────────────────── */
+
+.skill-ui-risk {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+}
+
+.skill-ui-risk-safe {
+  color: #86efac;
+  border-color: rgba(134, 239, 172, 0.3);
+  background: rgba(134, 239, 172, 0.06);
+}
+
+.skill-ui-risk-low {
+  color: #93c5fd;
+  border-color: rgba(147, 197, 253, 0.3);
+  background: rgba(147, 197, 253, 0.06);
+}
+
+.skill-ui-risk-moderate {
+  color: #fde68a;
+  border-color: rgba(253, 230, 138, 0.35);
+  background: rgba(253, 230, 138, 0.06);
+}
+
+.skill-ui-risk-elevated {
+  color: #fdba74;
+  border-color: rgba(253, 186, 116, 0.35);
+  background: rgba(253, 186, 116, 0.06);
+}
+
+.skill-ui-risk-high {
+  color: #fb7185;
+  border-color: rgba(251, 113, 133, 0.35);
+  background: rgba(251, 113, 133, 0.08);
+}
+
+.skill-ui-risk-critical {
+  color: #f87171;
+  border-color: rgba(248, 113, 113, 0.5);
+  background: rgba(248, 113, 113, 0.12);
+  animation: skill-risk-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes skill-risk-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.skill-ui-detail-risk {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0 14px;
+}
+
+.skill-ui-risk-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.skill-ui-risk-score {
+  font-size: 11px;
+  color: #8da0ba;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Skill detail panel ────────────────────────────────────────────────────── */
+
 .skill-ui-detail {
   padding: 18px;
 }
@@ -664,6 +742,109 @@ textarea {
   color: #fb7185;
   border-color: rgba(251, 113, 133, 0.54);
   background: rgba(244, 63, 94, 0.08);
+}
+
+.skill-detail-actions .primary {
+  color: #86efac;
+  border-color: rgba(134, 239, 172, 0.45);
+  background: rgba(52, 211, 153, 0.08);
+}
+
+/* ── Tab count pill ────────────────────────────────────────────────────────── */
+
+.tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(255,255,255,0.08);
+  color: #8da0ba;
+  margin-left: 4px;
+}
+
+.skill-manager-tabs button.is-active .tab-count {
+  background: rgba(52, 211, 153, 0.18);
+  color: #86efac;
+}
+
+/* ── Review / blocked banner ───────────────────────────────────────────────── */
+
+.skill-review-banner {
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(253, 230, 138, 0.25);
+  background: rgba(253, 230, 138, 0.05);
+}
+
+.skill-review-banner.block {
+  border-color: rgba(251, 113, 133, 0.3);
+  background: rgba(251, 113, 133, 0.06);
+}
+
+.skill-review-banner-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.skill-review-banner-head strong {
+  font-size: 14px;
+  color: #fde68a;
+}
+
+.skill-review-banner.block .skill-review-banner-head strong {
+  color: #fb7185;
+}
+
+.skill-review-banner > p {
+  font-size: 13px;
+  color: #8da0ba;
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+
+.skill-review-categories {
+  margin-bottom: 14px;
+}
+
+.skill-review-cat-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.skill-review-cat {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.06);
+  color: #93b4e0;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.skill-review-cat strong {
+  color: #fde68a;
+}
+
+.skill-review-banner.block .skill-review-cat strong {
+  color: #fb7185;
+}
+
+.skill-review-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 @media (max-width: 980px) {

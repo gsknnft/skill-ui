@@ -8,6 +8,7 @@ import type {
   SkillUiPolicyPreset,
   SkillUiRow,
 } from "../types";
+import { getUiRiskLevel, RISK_LEVEL_LABEL } from "../types";
 
 const policies: Record<SkillUiPolicyPreset, {
   preset: SkillUiPolicyPreset;
@@ -141,18 +142,26 @@ export function SkillSecurityWorkbench({
             <span>Selected Skill</span>
             <small>{selected?.status ?? "none"}</small>
           </div>
-          {selected ? (
-            <div className="skill-ui-detail">
-              <h2>{selected.name}</h2>
-              <p>{selected.source}</p>
-              <dl>
-                <div><dt>Scope</dt><dd>{selected.scope}</dd></div>
-                <div><dt>Risk</dt><dd>{selected.riskScore}</dd></div>
-                <div><dt>Findings</dt><dd>{selected.findings}</dd></div>
-                <div><dt>Scanner</dt><dd>{selected.scanner}</dd></div>
-              </dl>
-            </div>
-          ) : (
+          {selected ? (() => {
+            const riskLevel = getUiRiskLevel(selected.riskScore);
+            return (
+              <div className="skill-ui-detail">
+                <h2>{selected.name}</h2>
+                <p>{selected.source}</p>
+                <div className="skill-ui-detail-risk">
+                  <span className={`skill-ui-risk skill-ui-risk-${riskLevel}`}>
+                    {RISK_LEVEL_LABEL[riskLevel]}
+                  </span>
+                  <span className="skill-ui-risk-score">{selected.riskScore}/100</span>
+                </div>
+                <dl>
+                  <div><dt>Scope</dt><dd>{selected.scope}</dd></div>
+                  <div><dt>Findings</dt><dd>{selected.findings}</dd></div>
+                  <div><dt>Scanner</dt><dd>{selected.scanner}</dd></div>
+                </dl>
+              </div>
+            );
+          })() : (
             <p className="skill-ui-empty">No skills loaded.</p>
           )}
         </aside>

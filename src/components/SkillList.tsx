@@ -1,4 +1,5 @@
 import type { SkillListProps, SkillUiRow } from "../types";
+import { getUiRiskLevel, RISK_LEVEL_LABEL } from "../types";
 
 const statusLabel: Record<SkillUiRow["status"], string> = {
   allow: "Allow",
@@ -21,27 +22,37 @@ export function SkillList({ skills, selectedId, onSelectSkill }: SkillListProps)
           </tr>
         </thead>
         <tbody>
-          {skills.map((skill) => (
-            <tr
-              key={skill.id}
-              className={selectedId === skill.id ? "is-selected" : undefined}
-              onClick={() => onSelectSkill?.(skill)}
-            >
-              <td>
-                <strong>{skill.name}</strong>
-                <span>{skill.source}</span>
-              </td>
-              <td>{skill.scope}</td>
-              <td>
-                <span className={`skill-ui-pill ${skill.status}`}>
-                  {statusLabel[skill.status]}
-                </span>
-              </td>
-              <td>{skill.riskScore}</td>
-              <td>{skill.findings}</td>
-              <td>{skill.scanner}</td>
-            </tr>
-          ))}
+          {skills.map((skill) => {
+            const riskLevel = getUiRiskLevel(skill.riskScore);
+            return (
+              <tr
+                key={skill.id}
+                className={selectedId === skill.id ? "is-selected" : undefined}
+                onClick={() => onSelectSkill?.(skill)}
+              >
+                <td>
+                  <strong>{skill.name}</strong>
+                  <span>{skill.source}</span>
+                </td>
+                <td>{skill.scope}</td>
+                <td>
+                  <span className={`skill-ui-pill ${skill.status}`}>
+                    {statusLabel[skill.status]}
+                  </span>
+                </td>
+                <td>
+                  <span className="skill-ui-risk-cell">
+                    <span className={`skill-ui-risk skill-ui-risk-${riskLevel}`}>
+                      {RISK_LEVEL_LABEL[riskLevel]}
+                    </span>
+                    <span className="skill-ui-risk-score">{skill.riskScore}</span>
+                  </span>
+                </td>
+                <td>{skill.findings}</td>
+                <td>{skill.scanner}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
