@@ -19,7 +19,12 @@
     "files": [
         "dist",
         "docs",
-        "README.md"
+        "README.md",
+        "CHANGELOG.md",
+        "CONTRIBUTING.md",
+        "SECURITY.md",
+        "LICENSE",
+        "package.json"
     ],
     "repository": {
         "type": "git",
@@ -43,6 +48,7 @@
         "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
         "lint": "eslint 'src/**/*.{ts,tsx}'",
         "test": "vitest run src",
+        "demo": "next dev",
         "pack:check": "pnpm pack --dry-run"
     },
     "dependencies": {},
@@ -58,7 +64,7 @@
         "vitest": "^4.1.5"
     },
     "peerDependencies": {
-        "react": ">=19.0.0",
-        "react-dom": ">=19.0.0"
+        "react": ">=18.3.0 <20",
+        "react-dom": ">=18.3.0 <20"
     }
 }

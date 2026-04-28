@@ -18,6 +18,15 @@ security state.
 The package is intentionally UI-only. It does not scan skills, resolve sources,
 or execute runtime policy.
 
+## Quick Demo
+
+```sh
+git clone https://github.com/gsknnft/skill-ui
+cd skill-ui
+pnpm install
+pnpm demo    # opens Next.js dev server with demo data loaded
+```
+
 ## Install
 
 ```sh
@@ -130,13 +139,34 @@ Pass a `SkillUiSuppressionAuditReport` from `skill-safe`'s `auditSuppressions()`
 
 - [Roadmap](docs/ROADMAP.md)
 
+
+## Screenshots
+
+---
+
+ ![Skill Security Manager](public/manager.png)
+
+---
+
+ ![Skill Security Workbench](public/workbench.png)
+
+---
+
+
 ## Local Demo
 
 ```sh
-pnpm --dir packages/skill-ui exec next dev
+pnpm demo          # alias for: next dev
 ```
 
-Then open the local Next URL.
+Or from the monorepo root:
+
+```sh
+pnpm --dir packages/skill-ui demo
+```
+
+Then open the local Next.js URL. The demo app loads the suite fixture data
+automatically so you can review the workbench without setting up a real scan.
 
 ## Build
 

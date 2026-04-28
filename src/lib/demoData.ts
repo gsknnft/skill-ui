@@ -18,7 +18,7 @@ export const demoManifest: SkillUiLedgerManifest = {
       scope: "workspace",
       installedAt: "2026-04-28T00:00:00.000Z",
       integrity: `sha256-${"a".repeat(64)}`,
-      scanner: { name: "@gsknnft/skill-safe", version: "0.3.1", reportVersion: "skill-safe.report.v1" },
+      scanner: { name: "@gsknnft/skill-safe", version: "0.3.0", reportVersion: "skill-safe.report.v1" },
       scan: {
         safeToInstall: true,
         recommendedAction: "allow",
@@ -37,7 +37,7 @@ export const demoManifest: SkillUiLedgerManifest = {
       scope: "repo",
       installedAt: "2026-04-28T00:00:00.000Z",
       integrity: `sha256-${"b".repeat(64)}`,
-      scanner: { name: "@gsknnft/skill-safe", version: "0.3.1", reportVersion: "skill-safe.report.v1" },
+      scanner: { name: "@gsknnft/skill-safe", version: "0.3.0", reportVersion: "skill-safe.report.v1" },
       scan: {
         safeToInstall: false,
         recommendedAction: "block",
@@ -102,26 +102,26 @@ export const demoSuppressionAudit: SkillUiSuppressionAuditReport = {
 };
 
 export const demoManagedSkills: SkillUiManagedSkill[] = [
-  {
-    id: "vera-api-orchestrator",
-    name: "Vera Universal API Orchestrator",
-    source: "github:gsknnft/agent-skills/vera-api-orchestrator",
-    scope: "workspace",
-    status: "review",
-    severity: "caution",
-    riskScore: 42,
-    findings: 2,
-    scanner: "@gsknnft/skill-safe@0.3.1",
-    category: "general",
-    description:
-      "Routes approved API calls through a credential-aware orchestrator without exposing provider keys to the agent.",
-    instructions:
-      "# Vera Universal API Orchestrator\n\n## What this skill does\n\nUse stored OAuth tokens and approved API connectors to call third-party APIs through a controlled gateway. Never expose raw secrets to the model. Request user approval before mutation or external side effects.\n\n## Operating rules\n\n1. Resolve the provider from the user's intent.\n2. Check scope and token availability.\n3. Present the planned API call before mutation.\n4. Store only structured results in memory.",
-    tools: ["api.gateway.request", "oauth.scope.check", "memory.write"],
-    assignedAgents: ["Vera", "Sigi"],
-    createdAt: "Apr 28, 2026",
-    updatedAt: "Apr 28, 2026",
-  },
+  // {
+  //   id: "vera-api-orchestrator",
+  //   name: "Vera Universal API Orchestrator",
+  //   source: "github:gsknnft/agent-skills/vera-api-orchestrator",
+  //   scope: "workspace",
+  //   status: "review",
+  //   severity: "caution",
+  //   riskScore: 42,
+  //   findings: 2,
+  //   scanner: "@gsknnft/skill-safe@0.3.0",
+  //   category: "general",
+  //   description:
+  //     "Routes approved API calls through a credential-aware orchestrator without exposing provider keys to the agent.",
+  //   instructions:
+  //     "# Vera Universal API Orchestrator\n\n## What this skill does\n\nUse stored OAuth tokens and approved API connectors to call third-party APIs through a controlled gateway. Never expose raw secrets to the model. Request user approval before mutation or external side effects.\n\n## Operating rules\n\n1. Resolve the provider from the user's intent.\n2. Check scope and token availability.\n3. Present the planned API call before mutation.\n4. Store only structured results in memory.",
+  //   tools: ["api.gateway.request", "oauth.scope.check", "memory.write"],
+  //   assignedAgents: ["Vera", "Sigi"],
+  //   createdAt: "Apr 28, 2026",
+  //   updatedAt: "Apr 28, 2026",
+  // },
   {
     id: "plugin-builder",
     name: "Agent Plugin Builder",
@@ -131,7 +131,7 @@ export const demoManagedSkills: SkillUiManagedSkill[] = [
     severity: "safe",
     riskScore: 0,
     findings: 0,
-    scanner: "@gsknnft/skill-safe@0.3.1",
+    scanner: "@gsknnft/skill-safe@0.3.0",
     category: "development",
     description:
       "Creates structured agent plugin scaffolds with manifest, docs, validation notes, and release checklist.",
@@ -151,7 +151,7 @@ export const demoManagedSkills: SkillUiManagedSkill[] = [
     severity: "danger",
     riskScore: 100,
     findings: 4,
-    scanner: "@gsknnft/skill-safe@0.3.1",
+    scanner: "@gsknnft/skill-safe@0.3.0",
     category: "security",
     description:
       "Blocked fixture showing prompt override, credential access, and exfiltration patterns.",
@@ -171,7 +171,7 @@ export const demoManagedSkills: SkillUiManagedSkill[] = [
     severity: "safe",
     riskScore: 0,
     findings: 0,
-    scanner: "@gsknnft/skill-safe@0.3.1",
+    scanner: "@gsknnft/skill-safe@0.3.0",
     category: "planning",
     description:
       "Plans image, video, and asset generation batches with review checkpoints and deterministic export folders.",
@@ -191,7 +191,7 @@ export const demoManagedSkills: SkillUiManagedSkill[] = [
     severity: "caution",
     riskScore: 18,
     findings: 1,
-    scanner: "@gsknnft/skill-safe@0.3.1",
+    scanner: "@gsknnft/skill-safe@0.3.0",
     category: "coding",
     description:
       "Guides Three.js TSL scene construction and shader node organization for browser-native 3D experiments.",
