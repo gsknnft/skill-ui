@@ -418,13 +418,49 @@ textarea {
   gap: 10px;
 }
 
-.skill-manager-actions input {
+.skill-manager-actions input,
+.skill-manager-actions select {
   width: min(320px, 32vw);
   border: 1px solid rgba(148, 163, 184, 0.18);
   border-radius: 6px;
   background: rgba(15, 23, 42, 0.82);
   color: #eef5ff;
   padding: 10px 12px;
+}
+
+.skill-manager-actions select {
+  width: auto;
+}
+
+.skill-manager-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.skill-manager-summary div {
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.62);
+  padding: 10px;
+}
+
+.skill-manager-summary span,
+.skill-manager-summary strong {
+  display: block;
+}
+
+.skill-manager-summary span {
+  color: #8aa0bc;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.skill-manager-summary strong {
+  margin-top: 4px;
+  font-size: 18px;
 }
 
 .skill-manager-actions button,
@@ -603,6 +639,10 @@ textarea {
   }
 
   .skill-manager-actions input {
+    width: 100%;
+  }
+
+  .skill-manager-actions select {
     width: 100%;
   }
 }

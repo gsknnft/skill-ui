@@ -124,12 +124,16 @@ export type SkillManagerAction =
   | "export"
   | "delete"
   | "assign"
-  | "edit";
+  | "edit"
+  | "scan"
+  | "approve"
+  | "block";
 
 export type SkillManagerProps = SkillSecurityWorkbenchProps & {
   skills?: SkillUiManagedSkill[];
   defaultView?: "manager" | "workbench";
   onAction?: (action: SkillManagerAction, skill?: SkillUiManagedSkill) => void;
+  agents?: string[];
 };
 
 export type SkillSecurityWorkbenchProps = {

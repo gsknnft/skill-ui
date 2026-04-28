@@ -3,6 +3,15 @@ export { SkillManager } from "./components/SkillManager";
 export { SkillSecurityWorkbench } from "./components/SkillSecurityWorkbench";
 export { SkillList } from "./components/SkillList";
 export {
+  exportSkillMarkdown,
+  filterManagedSkills,
+  getSkillCategories,
+  managedSkillFromLedger,
+  managedSkillsFromManifest,
+  sortManagedSkills,
+  summarizeSkillLibrary,
+} from "./lib/curation";
+export {
   demoManagedSkills,
   demoManifest,
   demoReport,
@@ -17,3 +26,8 @@ export type {
   SkillUiRow,
   SkillUiStatus,
 } from "./types";
+export type {
+  SkillFilterOptions,
+  SkillLibrarySummary,
+  SkillSortKey,
+} from "./lib/curation";

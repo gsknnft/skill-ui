@@ -1,13 +1,25 @@
 {
     "name": "@gsknnft/skill-ui",
     "version": "0.1.0",
-    "description": "UI components for agent skills",
+    "description": "React skill manager and security workbench components for the skill-suite.",
     "private": false,
     "type": "module",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
+    "style": "dist/styles.css",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "default": "./dist/index.js"
+        },
+        "./styles.css": "./dist/styles.css",
+        "./package.json": "./package.json"
+    },
     "files": [
-        "dist"
+        "dist",
+        "docs",
+        "README.md"
     ],
     "repository": {
         "type": "git",
@@ -18,29 +30,30 @@
     "keywords": [
         "agent",
         "skills",
+        "skill-manager",
+        "skill-suite",
+        "skill-safe",
+        "skill-ledger",
         "ui",
         "components"
     ],
     "scripts": {
-        "build": "pnpm clean && tsc -p tsconfig.build.json",
-        "start": "next dev",
+        "build": "pnpm clean && tsc -p tsconfig.build.json && node -e \"require('node:fs').copyFileSync('src/styles.css','dist/styles.css')\"",
+        "dev": "next dev",
         "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
         "lint": "eslint 'src/**/*.{ts,tsx}'",
         "test": "vitest run src"
     },
-    "dependencies": {
-        "@gsknnft/skill-safe": "link:../skill-safe",
-        "@gsknnft/skill-ledger": "link:../skill-ledger",
-        "next": "16.2.4",
-        "react": "19.2.5",
-        "react-dom": "^19.2.5",
-        "vite": "8.0.10"
-    },
+    "dependencies": {},
     "devDependencies": {
         "@vitejs/plugin-react": "^6.0.1",
         "@types/react": "^19.2.14",
         "@types/react-dom": "^19.2.3",
+        "next": "16.2.4",
+        "react": "19.2.5",
+        "react-dom": "^19.2.5",
         "typescript": "^5.9.3",
+        "vite": "8.0.10",
         "vitest": "^4.1.5"
     },
     "peerDependencies": {

@@ -19,6 +19,12 @@ or execute runtime policy.
 pnpm add @gsknnft/skill-ui
 ```
 
+Import the styles once in your app shell:
+
+```ts
+import "@gsknnft/skill-ui/styles.css";
+```
+
 ## Manager Usage
 
 ```tsx
@@ -62,6 +68,26 @@ export function SecurityPage({ manifest, report, suppressionAudit }) {
   findings, mappings, suppressions, and ledger health.
 - `SkillList` — compact skill inventory table.
 - `App` — demo app shell.
+
+## Curation Helpers
+
+```ts
+import {
+  exportSkillMarkdown,
+  filterManagedSkills,
+  managedSkillsFromManifest,
+  summarizeSkillLibrary,
+} from "@gsknnft/skill-ui";
+
+const skills = managedSkillsFromManifest(manifest);
+const queue = filterManagedSkills(skills, { status: "review" });
+const summary = summarizeSkillLibrary(skills);
+const markdown = exportSkillMarkdown(queue[0]);
+```
+
+## Roadmap
+
+- [Roadmap](docs/ROADMAP.md)
 
 ## Local Demo
 

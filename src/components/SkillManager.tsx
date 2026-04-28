@@ -2,47 +2,21 @@
 
 import { useMemo, useState } from "react";
 import SkillSecurityWorkbench from "./SkillSecurityWorkbench";
-import type {
-  SkillManagerProps,
-  SkillUiLedgerEntry,
-  SkillUiManagedSkill,
-} from "../types";
-
-function managedFromLedger(entry: SkillUiLedgerEntry): SkillUiManagedSkill {
-  const categories = Object.keys(entry.scan.categories ?? {});
-  return {
-    id: entry.id,
-    name: entry.name ?? entry.id,
-    source: entry.source,
-    scope: entry.scope,
-    status: entry.scan.recommendedAction,
-    severity: entry.scan.severity,
-    riskScore: entry.scan.riskScore,
-    findings: entry.scan.flagCount,
-    scanner: `${entry.scanner.name}@${entry.scanner.version}`,
-    category: categories[0] ?? "general",
-    description: entry.scan.safeToInstall
-      ? "Verified skill from the ledger."
-      : "Skill requires review before use.",
-    instructions: `# ${entry.name ?? entry.id}\n\nSource: ${entry.source}\n\nIntegrity: ${entry.integrity}`,
-    tools: [],
-    assignedAgents: [],
-    createdAt: entry.installedAt,
-    updatedAt: entry.updatedAt,
-    ledger: entry,
-  };
-}
+import {
+  exportSkillMarkdown,
+  filterManagedSkills,
+  getSkillCategories,
+  managedSkillsFromManifest,
+  sortManagedSkills,
+  summarizeSkillLibrary,
+  type SkillSortKey,
+} from "../lib/curation";
+import type { SkillManagerProps, SkillUiManagedSkill, SkillUiStatus } from "../types";
 
 function statusText(status: SkillUiManagedSkill["status"]): string {
   if (status === "allow") return "Verified";
   if (status === "review") return "Review";
   return "Blocked";
-}
-
-function categoryCounts(skills: SkillUiManagedSkill[]): Array<[string, number]> {
-  const counts = new Map<string, number>();
-  for (const skill of skills) counts.set(skill.category, (counts.get(skill.category) ?? 0) + 1);
-  return [["all", skills.length], ...[...counts.entries()].sort((a, b) => a[0].localeCompare(b[0]))];
 }
 
 export function SkillManager({
@@ -54,24 +28,36 @@ export function SkillManager({
   suppressionAudit,
   policyPreset = "workspace",
   defaultView = "manager",
+  agents = [],
   onAction,
   onSelectSkill,
 }: SkillManagerProps) {
   const managedSkills = useMemo(
-    () => skills ?? manifest?.skills.map(managedFromLedger) ?? [],
+    () => skills ?? managedSkillsFromManifest(manifest),
     [skills, manifest],
   );
   const [view, setView] = useState<"manager" | "workbench">(defaultView);
   const [category, setCategory] = useState("all");
+  const [status, setStatus] = useState<SkillUiStatus | "all">("all");
+  const [agent, setAgent] = useState("all");
+  const [sort, setSort] = useState<SkillSortKey>("name");
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(managedSkills[0]?.id);
 
-  const filtered = managedSkills.filter((skill) => {
-    const matchesCategory = category === "all" || skill.category === category;
-    const haystack = `${skill.name} ${skill.source} ${skill.category} ${skill.description}`.toLowerCase();
-    return matchesCategory && haystack.includes(query.toLowerCase());
-  });
+  const agentOptions = agents.length
+    ? agents
+    : [...new Set(managedSkills.flatMap((skill) => skill.assignedAgents))].sort();
+  const filtered = sortManagedSkills(
+    filterManagedSkills(managedSkills, {
+      category,
+      query,
+      status,
+      agent: agent === "all" ? undefined : agent,
+    }),
+    sort,
+  );
   const selected = managedSkills.find((skill) => skill.id === selectedId) ?? filtered[0] ?? managedSkills[0];
+  const summary = summarizeSkillLibrary(managedSkills);
 
   if (view === "workbench") {
     return (
@@ -105,9 +91,14 @@ export function SkillManager({
       <div className="skill-manager-layout">
         <aside className="skill-manager-sidebar">
           <div className="skill-manager-path">/ Skills</div>
+          <div className="skill-manager-summary">
+            <div><span>Verified</span><strong>{summary.allow}</strong></div>
+            <div><span>Review</span><strong>{summary.review}</strong></div>
+            <div><span>Blocked</span><strong>{summary.block}</strong></div>
+          </div>
           <div className="skill-manager-section-title">Categories</div>
           <div className="skill-manager-categories">
-            {categoryCounts(managedSkills).map(([name, count]) => (
+            {getSkillCategories(managedSkills).map(([name, count]) => (
               <button
                 type="button"
                 key={name}
@@ -133,6 +124,22 @@ export function SkillManager({
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search skills..."
               />
+              <select value={status} onChange={(event) => setStatus(event.target.value as SkillUiStatus | "all")}>
+                <option value="all">All status</option>
+                <option value="allow">Verified</option>
+                <option value="review">Review</option>
+                <option value="block">Blocked</option>
+              </select>
+              <select value={agent} onChange={(event) => setAgent(event.target.value)}>
+                <option value="all">All agents</option>
+                {agentOptions.map((name) => <option key={name} value={name}>{name}</option>)}
+              </select>
+              <select value={sort} onChange={(event) => setSort(event.target.value as SkillSortKey)}>
+                <option value="name">Sort name</option>
+                <option value="risk">Sort risk</option>
+                <option value="updated">Sort updated</option>
+                <option value="status">Sort status</option>
+              </select>
               <button type="button" onClick={() => onAction?.("import")}>Import</button>
               <button type="button" onClick={() => onAction?.("new")}>New Skill</button>
             </div>
@@ -140,8 +147,8 @@ export function SkillManager({
 
           <div className="skill-manager-tabs">
             <button type="button" className="is-active">Skills {managedSkills.length}</button>
-            <button type="button">Discovered 0</button>
-            <button type="button">Evolution 0</button>
+            <button type="button" onClick={() => setStatus("review")}>Review {summary.review}</button>
+            <button type="button" onClick={() => setStatus("block")}>Blocked {summary.block}</button>
           </div>
 
           <div className="skill-card-grid">
@@ -192,7 +199,13 @@ export function SkillManager({
               </div>
               <div className="skill-detail-actions">
                 <button type="button" onClick={() => onAction?.("assign", selected)}>Assign</button>
+                <button type="button" onClick={() => onAction?.("scan", selected)}>Run Scan</button>
+                <button type="button" onClick={() => onAction?.("approve", selected)}>Approve</button>
                 <button type="button" onClick={() => onAction?.("export", selected)}>Export SKILL.md</button>
+                <button type="button" onClick={() => {
+                  void navigator.clipboard?.writeText(exportSkillMarkdown(selected));
+                  onAction?.("export", selected);
+                }}>Copy Markdown</button>
                 <button type="button" className="danger" onClick={() => onAction?.("delete", selected)}>Delete Skill</button>
               </div>
             </>
